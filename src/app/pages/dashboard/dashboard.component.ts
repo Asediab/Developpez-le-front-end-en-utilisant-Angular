@@ -10,7 +10,7 @@ export class DashboardComponent implements OnInit {
   }
 
   single!: any[];
-  view: any[] = [700, 400];
+  view: [number, number] = [700, 400];
 
   // options
   gradient: boolean = true;
@@ -19,9 +19,7 @@ export class DashboardComponent implements OnInit {
   isDoughnut: boolean = false;
   legendPosition: string = 'below';
 
-  colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
+  colorScheme = String(['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']);
 
   constructor() {
     //Object.assign(this, { single });
