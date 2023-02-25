@@ -1,17 +1,39 @@
-<h2>Olympic games app</h2>
-<hr/>
-<div class="container">
-  <ngx-charts-pie-chart
-    [scheme]="colorScheme"
-    [results]="single"
-    [gradient]="gradient"
-    [legend]="showLegend"
-    [legendPosition]="legendPosition"
-    [labels]="showLabels"
-    [doughnut]="isDoughnut"
-    (select)="onSelect($event)"
-    (activate)="onActivate($event)"
-    (deactivate)="onDeactivate($event)"
-  >
-  </ngx-charts-pie-chart>
+<header style="justify-content: center">
+  <div class="h1">Medals per Country</div>
+</header>
+
+<div *ngIf="!errorDataSetLoaded; else elseBlock" style="width: 100%; height: 100%">
+  <div>
+    <menu>
+      <li>
+        <div class="p">
+          <h4>Number of JOs</h4>
+          <h5>{{numberOfJO}}</h5>
+        </div>
+      </li>
+      <li>
+        <div class="p">
+          <h4>Number of countries</h4>
+          <h5>{{numberOfCountries}}</h5>
+        </div>
+      </li>
+    </menu>
+  </div>
+  <div class="container">
+    <ngx-charts-pie-chart
+      [scheme]="colorScheme"
+      [results]="single"
+      [gradient]="gradient"
+      [legend]="showLegend"
+      [legendPosition]="legendPosition"
+      [labels]="showLabels"
+      [doughnut]="isDoughnut"
+      (select)="onSelect($event)"
+      (activate)="onActivate($event)"
+      (deactivate)="onDeactivate($event)"
+    >
+    </ngx-charts-pie-chart>
+  </div>
 </div>
+<ng-template #elseBlock><h3 style="text-align: center">There was an error loading the data, please reload the page.</h3>
+</ng-template>

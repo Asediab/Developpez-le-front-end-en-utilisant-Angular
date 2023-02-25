@@ -1,4 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {OlympicService} from "../../core/services/olympic.service";
+import {Router} from "@angular/router";
+import {OlympicDataLine} from "../../core/models/Interfaces";
+import {Olympic} from "../../core/models/Olympic";
 
 @Component({
   selector: 'app-country-details',
@@ -6,14 +10,9 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./country-details.component.scss']
 })
 export class CountryDetailsComponent implements OnInit {
-  ngOnInit(): void {
-  }
-
   multi!: any[];
-  view: [number, number] = [700, 300];
 
-  // options
-  legend: boolean = true;
+  legend: boolean = false;
   showLabels: boolean = true;
   animations: boolean = true;
   xAxis: boolean = true;
@@ -21,23 +20,32 @@ export class CountryDetailsComponent implements OnInit {
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
   xAxisLabel: string = 'Year';
-  yAxisLabel: string = 'Population';
-  timeline: boolean = true;
-
+  yAxisLabel: string = 'Medals';
+  timeline: boolean = false;
   colorScheme: string = 'cool';
 
-  constructor() {
+
+  errorDataSetLoaded: boolean = true;
+  numberOfEntries!: number;
+  numberOfMedals!: number;
+  numberOfAthletes!: number;
+  olympicDataSetLine!: OlympicDataLine[];
+  olympics!: Olympic[];
+
+  constructor(private olympicService: OlympicService,
+              private router: Router) {
   }
 
+  ngOnInit(): void {
+  }
+
+
   onSelect(data: any): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
   }
 
   onActivate(data: any): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
   }
 
   onDeactivate(data: any): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 }

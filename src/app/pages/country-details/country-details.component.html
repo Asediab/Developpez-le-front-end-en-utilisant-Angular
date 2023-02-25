@@ -1,17 +1,48 @@
-<ngx-charts-line-chart
-  [view]="view"
-  [scheme]="colorScheme"
-  [legend]="legend"
-  [showXAxisLabel]="showXAxisLabel"
-  [showYAxisLabel]="showYAxisLabel"
-  [xAxis]="xAxis"
-  [yAxis]="yAxis"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel"
-  [timeline]="timeline"
-  [results]="multi"
-  (select)="onSelect($event)"
-  (activate)="onActivate($event)"
-  (deactivate)="onDeactivate($event)"
->
-</ngx-charts-line-chart>
+<header style="justify-content: center">
+  <div class="h1">Medals per Country</div>
+</header>
+
+<div *ngIf="!errorDataSetLoaded; else elseBlock" style="width: 100%; height: 100%">
+  <div>
+    <menu>
+      <li>
+        <div class="p">
+          <h4>Number of entries</h4>
+          <h5>{{numberOfEntries}}</h5>
+        </div>
+      </li>
+      <li>
+        <div class="p">
+          <h4>Total number medals</h4>
+          <h5>{{numberOfMedals}}</h5>
+        </div>
+      </li>
+      <li>
+        <div class="p">
+          <h4>Total number of athletes</h4>
+          <h5>{{numberOfAthletes}}</h5>
+        </div>
+      </li>
+    </menu>
+  </div>
+  <div class="container">
+    <ngx-charts-line-chart
+      [scheme]="colorScheme"
+      [legend]="legend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxis]="xAxis"
+      [yAxis]="yAxis"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [timeline]="timeline"
+      [results]="multi"
+      (select)="onSelect($event)"
+      (activate)="onActivate($event)"
+      (deactivate)="onDeactivate($event)"
+    >
+    </ngx-charts-line-chart>
+  </div>
+</div>
+<ng-template #elseBlock><h3 style="text-align: center">There was an error loading the data, please reload the page.</h3>
+</ng-template>
