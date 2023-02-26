@@ -20,7 +20,7 @@ export class OlympicService {
     return this.http.get<Olympic[]>(this.olympicUrl).pipe(
       tap((value) => this.olympics$.next(value)),
       catchError((error, caught) => {
-        console.error(error);
+        alert(error);
         this.error = true;
         this.olympics$.next([]);
         return caught;

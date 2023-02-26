@@ -13,7 +13,6 @@ export class CountryDetailsComponent implements OnInit {
   multi!: any[];
 
   legend: boolean = false;
-  showLabels: boolean = true;
   animations: boolean = true;
   xAxis: boolean = true;
   yAxis: boolean = true;
@@ -41,7 +40,6 @@ export class CountryDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.countryId = +this.router.snapshot.params['id'];
-    console.log(this.countryId);
     try {
       this.olympicService.getOlympics().subscribe(value => {
         this.olympics = value;
@@ -49,14 +47,10 @@ export class CountryDetailsComponent implements OnInit {
         if (!this.country) {
           this.errorDataSetLoaded = true;
         }
-        console.log(this.country);
         this.getOlympicDataSetLine(this.country);
         this.numberOfMedals = this.getNumberOfMedals(this.country);
-        console.log(this.numberOfMedals);
         this.numberOfAthletes = this.getNumberOfAthletes(this.country);
-        console.log(this.numberOfAthletes);
         this.numberOfEntries = this.getNumberOfEntries(this.country);
-        console.log(this.numberOfEntries);
       });
     } catch (e) {
       this.errorDataSetLoaded = true;
@@ -66,14 +60,11 @@ export class CountryDetailsComponent implements OnInit {
   }
 
   private getOlympicDataSetLine(country: Olympic): void {
-    console.log(country);
     let series: Series[] = country.participations.map(value => {
       return new Series(value.medalsCount, value.year.toString());
     })
-    console.log(series);
     this.olympicDataSetLine.push(new OlympicDataLine(country.country, series));
     this.multi = this.olympicDataSetLine;
-    console.log(this.multi)
   }
 
   getNumberOfEntries(olympic: Olympic): number {

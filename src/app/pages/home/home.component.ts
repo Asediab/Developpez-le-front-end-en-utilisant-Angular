@@ -29,11 +29,6 @@ export class HomeComponent implements OnInit {
   constructor(private olympicService: OlympicService,
               private router: Router) {
   }
-
-  private setSingle(value: Object[]) {
-    this.single = value;
-  }
-
   ngOnInit(): void {
     this.olympicService.getOlympics().subscribe(value => {
       this.olympics = value;
@@ -48,7 +43,7 @@ export class HomeComponent implements OnInit {
     this.olympicDataPipe = this.olympics.map(value => {
       return new OlympicDataPipe(value.country, this.getAllMedals(value), new Extra(value.id));
     })
-    this.setSingle(this.olympicDataPipe);
+    this.single = this.olympicDataPipe;
   }
 
   private getNumberOfJO(olympics: Olympic[]): number {
@@ -80,11 +75,5 @@ export class HomeComponent implements OnInit {
   onSelect(data: any): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
     this.router.navigateByUrl('country/' + data.extra.id);
-  }
-
-  onActivate(data: any): void {
-  }
-
-  onDeactivate(data: any): void {
   }
 }
