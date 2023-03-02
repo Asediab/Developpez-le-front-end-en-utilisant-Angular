@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {OlympicService} from "../../core/services/olympic.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {OlympicDataLine, Series} from "../../core/models/Interfaces";
+import {OlympicDataLine, Series} from "../../core/models/Classes";
 import {Olympic} from "../../core/models/Olympic";
 
 @Component({
@@ -55,7 +55,6 @@ export class CountryDetailsComponent implements OnInit {
     } catch (e) {
       this.errorDataSetLoaded = true;
     }
-
     this.errorDataSetLoaded = this.olympicService.error;
   }
 
@@ -76,7 +75,7 @@ export class CountryDetailsComponent implements OnInit {
   }
 
   getNumberOfAthletes(olympic: Olympic): number {
-    return olympic.participations.reduce((allMedals, previousValue) => allMedals + previousValue.athleteCount, 0);
+    return olympic.participations.reduce((allAthletes, previousValue) => allAthletes + previousValue.athleteCount, 0);
   }
 
   onBack(): void {

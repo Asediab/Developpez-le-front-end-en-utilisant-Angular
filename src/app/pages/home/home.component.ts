@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {OlympicService} from 'src/app/core/services/olympic.service';
 import {LegendPosition} from "@swimlane/ngx-charts";
 import {Olympic} from "../../core/models/Olympic";
-import {Extra, OlympicDataPipe} from "../../core/models/Interfaces";
+import {Extra, OlympicDataPipe} from "../../core/models/Classes";
 import {Router} from "@angular/router";
 
 @Component({
@@ -73,7 +73,6 @@ export class HomeComponent implements OnInit {
   }
 
   onSelect(data: any): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
     this.router.navigateByUrl('country/' + data.extra.id);
   }
 }
