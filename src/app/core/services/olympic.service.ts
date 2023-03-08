@@ -21,8 +21,8 @@ export class OlympicService {
       tap((value) => this.olympics$.next(value)),
       catchError((error, caught) => {
         this.error = true;
-        this.olympics$.unsubscribe();
         this.olympics$.next([]);
+        this.olympics$.complete();
         return caught;
       })
     );
