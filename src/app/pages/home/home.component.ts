@@ -1,21 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OlympicService} from 'src/app/core/services/olympic.service';
 import {LegendPosition} from "@swimlane/ngx-charts";
 import {Olympic} from "../../core/models/Olympic";
 import {Extra, OlympicDataPipe} from "../../core/models/Classes";
 import {Router} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   olympics!: Olympic[];
   olympicDataPipe!: OlympicDataPipe[];
   errorDataSetLoaded: boolean = true;
   numberOfJO!: number;
   numberOfCountries!: number;
+  subscription!: Subscription;
 
 
   single!: Object[];
@@ -30,13 +32,24 @@ export class HomeComponent implements OnInit {
               private router: Router) {
   }
   ngOnInit(): void {
-    this.olympicService.getOlympics().subscribe(value => {
-      this.olympics = value;
-      this.getOlympicDataSet();
-      this.numberOfJO = this.getNumberOfJO(this.olympics);
-      this.numberOfCountries = this.getNumberOfCountries(this.olympics);
-    });
+    try {
+      this.subscription = this.olympicService.getOlympics().subscribe(value => {
+        this.olympics = value;
+        this.getOlympicDataSet();
+        this.numberOfJO = this.getNumberOfJO(this.olympics);
+        this.numberOfCountries = this.getNumberOfCountries(this.olympics);
+      });
+    } catch (e) {
+      this.errorDataSetLoaded = true;
+      this.subscription.unsubscribe();
+    }
     this.errorDataSetLoaded = this.olympicService.error;
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   private getOlympicDataSet(): void {

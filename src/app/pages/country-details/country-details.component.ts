@@ -1,17 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OlympicService} from "../../core/services/olympic.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {OlympicDataLine, Series} from "../../core/models/Classes";
 import {Olympic} from "../../core/models/Olympic";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-country-details',
   templateUrl: './country-details.component.html',
   styleUrls: ['./country-details.component.scss']
 })
-export class CountryDetailsComponent implements OnInit {
+export class CountryDetailsComponent implements OnInit, OnDestroy {
   multi!: any[];
-
   legend: boolean = false;
   animations: boolean = true;
   xAxis: boolean = true;
@@ -32,6 +32,7 @@ export class CountryDetailsComponent implements OnInit {
   olympics!: Olympic[];
   country!: Olympic;
   countryId!: number;
+  subscription!: Subscription;
 
   constructor(private olympicService: OlympicService,
               private router: ActivatedRoute,
@@ -41,7 +42,7 @@ export class CountryDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.countryId = +this.router.snapshot.params['id'];
     try {
-      this.olympicService.getOlympics().subscribe(value => {
+      this.subscription = this.olympicService.getOlympics().subscribe(value => {
         this.olympics = value;
         this.country = value.find(value1 => value1.id === this.countryId) as Olympic;
         if (!this.country) {
@@ -54,8 +55,15 @@ export class CountryDetailsComponent implements OnInit {
       });
     } catch (e) {
       this.errorDataSetLoaded = true;
+      this.subscription.unsubscribe();
     }
     this.errorDataSetLoaded = this.olympicService.error;
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   private getOlympicDataSetLine(country: Olympic): void {
